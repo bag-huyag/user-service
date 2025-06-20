@@ -16,7 +16,8 @@ func StartGRPC() error {
 		return fmt.Errorf("failed to listen: %w", err)
 	}
 
-	producer := kafka.NewProducer("localhost:9092", "users")
+	// producer := kafka.NewProducer("localhost:9092", "users")
+	producer := kafka.NewProducer("kafka:9092", "users")
 
 	srv := grpc.NewServer()
 	pb.RegisterUserServiceServer(srv, handler.NewUserHandler(producer))
