@@ -8,6 +8,7 @@ import (
 	"github.com/bag-huyag/user-service/internal/kafka"
 	pb "github.com/bag-huyag/user-service/proto/gen"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 )
 
 func StartGRPC() error {
@@ -20,6 +21,7 @@ func StartGRPC() error {
 	producer := kafka.NewProducer("kafka:9092", "users")
 
 	srv := grpc.NewServer()
+	reflection.Register(srv)
 	pb.RegisterUserServiceServer(srv, handler.NewUserHandler(producer))
 
 	fmt.Println("gRPC server listening on port 50052")
